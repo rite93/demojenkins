@@ -141,10 +141,6 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   }
     os_profile_linux_config {
     disable_password_authentication = true
-     admin_ssh_key {
-        username       = "myadmin"
-        public_key     = file("~/.ssh/id_rsa.pub")
-    }
   }
 
   network_profile {
