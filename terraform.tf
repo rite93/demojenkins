@@ -136,10 +136,6 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   os_profile_linux_config {
     disable_password_authentication = true
 
-    ssh_keys {
-      path     = "/home/myadmin/.ssh/authorized_keys"
-      key_data = file("~/.ssh/demo_key.pub")
-    }
   }
 
   network_profile {
