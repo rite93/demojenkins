@@ -84,12 +84,9 @@ resource "azurerm_lb_probe" "vm-scaleset" {
   port                = 8080
 }
 
-resource "azurerm_ssh_public_key" "vm-scaleset" {
-    name                = "key"
-    resource_group_name = azurerm_resource_group.vm-scaleset.name
-    location            = azurerm_resource_group.vm-scaleset.location
-    public_key          = "~/.ssh/id_rsa.pub"
-    }
+resource "tls_private_key" "example_ssh" {
+  algorithm = "RSA"
+  rsa_bits = 4096
 
 resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   name                = "mytestscaleset-1"
@@ -143,7 +140,10 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   }
     os_profile_linux_config {
     disable_password_authentication = true
-      
+     admin_ssh_key {
+        username       = "myadmin"
+        public_key     = file("~/.ssh/id_rsa.pub")
+    }
   }
 
   network_profile {
