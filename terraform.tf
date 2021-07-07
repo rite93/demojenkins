@@ -84,9 +84,10 @@ resource "azurerm_lb_probe" "vm-scaleset" {
   port                = 8080
 }
 
-resource "tls_private_key" "example_ssh" {
+resource "tls_private_key" "vm-scaleset" {
   algorithm = "RSA"
   rsa_bits = 4096
+}
 
 resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   name                = "mytestscaleset-1"
