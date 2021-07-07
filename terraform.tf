@@ -88,7 +88,7 @@ resource "azurerm_ssh_public_key" "vm-scaleset" {
     name                = "key"
     resource_group_name = azurerm_resource_group.vm-scaleset.name
     location            = azurerm_resource_group.vm-scaleset.location
-    public_key          = file("~/.ssh/id_rsa.pub")
+    public_key          = "~/.ssh/id_rsa.pub"
     }
 
 resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
