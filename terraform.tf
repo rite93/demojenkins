@@ -99,13 +99,6 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
     max_unhealthy_upgraded_instance_percent = 5
     pause_time_between_batches              = "PT0S"
   }
-  
-  resource "azurerm_ssh_public_key" "vm-scaleset" {
-  name                = "key"
-  resource_group_name = azurerm_resource_group.vm-scaleset.name
-  location            = azurerm_resource_group.vm-scaleset.location
-  public_key          = file("~/.ssh/id_rsa.pub")
-}
 
   # required when using rolling upgrade policy
   health_probe_id = azurerm_lb_probe.vm-scaleset.id
@@ -143,9 +136,12 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   }
     os_profile_linux_config {
     disable_password_authentication = true
-
-    ssh_keys {
-      path     = "/home/myadmin/.ssh/authorized_keys"
+      
+    resource "azurerm_ssh_public_key" "vm-scaleset" {
+    name                = "key"
+    resource_group_name = azurerm_resource_group.vm-scaleset.name
+    location            = azurerm_resource_group.vm-scaleset.location
+    public_key          = file("~/.ssh/id_rsa.pub")
     }
   }
 
