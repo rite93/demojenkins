@@ -93,6 +93,9 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   name                = "mytestscaleset-1"
   location            = azurerm_resource_group.vm-scaleset.location
   resource_group_name = azurerm_resource_group.vm-scaleset.name
+  os_profile_linux_config {
+    disable_password_authentication = true
+  }
 
   # automatic rolling upgrade
   automatic_os_upgrade = true
@@ -138,9 +141,6 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   os_profile {
     computer_name_prefix = "testvm"
     admin_username       = "myadmin"
-  }
-    os_profile_linux_config {
-    disable_password_authentication = true
   }
 
   network_profile {
