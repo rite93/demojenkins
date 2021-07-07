@@ -133,11 +133,15 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   os_profile {
     computer_name_prefix = "testvm"
     admin_username       = "myadmin"
-    admin_password       = "Acj2#34$1234"
   }
 
   os_profile_linux_config {
     disable_password_authentication = true
+    
+    ssh_keys {
+      path     = "/home/myadmin/.ssh/authorized_keys"
+      key_data = file("~/.ssh/demo_key.pub")
+    }
 
   }
 
