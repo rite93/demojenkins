@@ -41,7 +41,7 @@ resource "azurerm_public_ip" "vm-scaleset" {
   location            = azurerm_resource_group.vm-scaleset.location
   resource_group_name = azurerm_resource_group.vm-scaleset.name
   allocation_method   = "Static"
-  domain_name_label   = azurerm_resource_group.vm-scaleset.name
+  domain_name_label   = riteshdns
 
   tags = {
     environment = "staging"
