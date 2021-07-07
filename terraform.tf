@@ -136,11 +136,6 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
     admin_password       = "Acj2#34$1234"
   }
 
-  os_profile_linux_config {
-    disable_password_authentication = false
-
-  }
-
   network_profile {
     name    = "terraformnetworkprofile"
     primary = true
