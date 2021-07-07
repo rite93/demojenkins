@@ -100,9 +100,11 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
     pause_time_between_batches              = "PT0S"
   }
   
-  resource "azurerm_key_pair" "terraform-keys2" {
-  key_name = "terraform-keys"
-  public_key = "demo_key.pub"
+  resource "azurerm_ssh_public_key" "vm-scaleset" {
+  name                = "key"
+  resource_group_name = azurerm_resource_group.vm-scaleset.name
+  location            = azurerm_resource_group.vm-scaleset.location
+  public_key          = file("~/.ssh/id_rsa.pub")
 }
 
   # required when using rolling upgrade policy
