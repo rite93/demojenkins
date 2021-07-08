@@ -81,7 +81,7 @@ resource "azurerm_lb_probe" "vm-scaleset" {
   name                = "http-probe"
   protocol            = "Http"
   request_path        = "/health"
-  port                = 8080
+  port                = 8081
 }
 
 resource "tls_private_key" "vm-scaleset" {
@@ -97,7 +97,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/myadmin/.ssh/authorized_keys"
-      key_data = "~/.ssh/demo_key.pub"
+      key_data = "file(~/.ssh/demo_key.pub)"
     }
   }
 
