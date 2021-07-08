@@ -97,7 +97,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/myadmin/.ssh/authorized_keys"
-      key_data = file("~/.ssh/id_rsa.pub")
+      key_data = file("~/.ssh/authorized_keys")
     }
   }
 
