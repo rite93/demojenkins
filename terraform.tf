@@ -94,11 +94,8 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   location            = azurerm_resource_group.vm-scaleset.location
   resource_group_name = azurerm_resource_group.vm-scaleset.name
   os_profile_linux_config {
-    disable_password_authentication = true
-    ssh_keys {
-      path     = "/home/myadmin/.ssh/authorized_keys"
-      key_data = file("~/.ssh/id_rsa.pub")
-    }
+    disable_password_authentication = false
+ 
   }
 
   # automatic rolling upgrade
@@ -145,6 +142,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-scaleset" {
   os_profile {
     computer_name_prefix = "testvm"
     admin_username       = "myadmin"
+    admin_password       = "Password@1234"
   }
 
   network_profile {
