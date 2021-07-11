@@ -56,6 +56,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
       subnet_id = azurerm_subnet.internal.id
     }
   }
+}
 resource "azurerm_monitor_autoscale_setting" "example" {
   name                = "myAutoscaleSetting"
   resource_group_name = azurerm_resource_group.example.name
@@ -111,5 +112,4 @@ resource "azurerm_monitor_autoscale_setting" "example" {
       }
     }
   }
-}
 }
