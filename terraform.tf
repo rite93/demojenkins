@@ -7,12 +7,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
+  name     = "resources"
   location = "West Europe"
 }
 
 resource "azurerm_virtual_network" "example" {
-  name                = "example-network"
+  name                = "network"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
   address_space       = ["11.0.0.0/16"]
@@ -26,7 +26,7 @@ resource "azurerm_subnet" "internal" {
 }
 
 resource "azurerm_windows_virtual_machine_scale_set" "example" {
-  name                = "example-vmss"
+  name                = "vmss"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
   sku                 = "Standard_F2"
