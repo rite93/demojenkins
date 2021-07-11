@@ -112,3 +112,4 @@ resource "azurerm_monitor_autoscale_setting" "example" {
     }
   }
 }
+}
