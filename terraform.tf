@@ -21,18 +21,19 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_virtual_network" "example" {
-  name                = "acctvn"
-  address_space       = ["13.0.0.0/16"]
-  location            = azurerm_resource_group.example.location
+  name                = "network"
   resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+  address_space       = ["11.0.0.0/16"]
 }
 
-resource "azurerm_subnet" "example" {
-  name                 = "acctsub"
+resource "azurerm_subnet" "internal" {
+  name                 = "internal"
   resource_group_name  = azurerm_resource_group.example.name
   virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["13.0.2.0/24"]
+  address_prefixes     = ["11.0.2.0/24"]
 }
+
 
 resource "azurerm_public_ip" "example" {
   name                = "test"
@@ -83,74 +84,35 @@ resource "azurerm_lb_probe" "example" {
   port                = 8080
 }
 
-resource "azurerm_virtual_machine_scale_set" "example" {
-  name                = "mytestscaleset-1"
-  location            = azurerm_resource_group.example.location
+resource "azurerm_windows_virtual_machine_scale_set" "example" {
+  name                = "vmss"
   resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+  sku                 = "Standard_F2"
+  instances           = 1
+  admin_password      = "P@55w0rd1234!"
+  admin_username      = "adminuser"
 
-  # automatic rolling upgrade
-  automatic_os_upgrade = true
-  upgrade_policy_mode  = "Rolling"
-
-  rolling_upgrade_policy {
-    max_batch_instance_percent              = 20
-    max_unhealthy_instance_percent          = 20
-    max_unhealthy_upgraded_instance_percent = 5
-    pause_time_between_batches              = "PT0S"
-  }
-
-  # required when using rolling upgrade policy
-  health_probe_id = azurerm_lb_probe.example.id
-
-  sku {
-    name     = "Standard_F2"
-    tier     = "Standard"
-    capacity = 2
-  }
-
-  storage_profile_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter-Server-Core"
     version   = "latest"
   }
 
-  storage_profile_os_disk {
-    name              = ""
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
+  os_disk {
+    storage_account_type = "Standard_LRS"
+    caching              = "ReadWrite"
   }
 
-  storage_profile_data_disk {
-    lun           = 0
-    caching       = "ReadWrite"
-    create_option = "Empty"
-    disk_size_gb  = 10
-  }
-
-  os_profile {
-    computer_name_prefix = "testvm"
-    admin_username       = "azureuser"
-  }
-
-  os_profile_linux_config {
-    disable_password_authentication = true
-
-    ssh_keys {
-      path     = "/home/azureuser/.ssh/authorized_keys"
-      key_data = file("/var/lib/jenkins/.ssh/id_rsa.pub")
-    }
-  }
-
-  network_profile {
-    name    = "terraformnetworkprofile"
+  network_interface {
+    name    = "example"
     primary = true
 
     ip_configuration {
-      name                                   = "TestIPConfiguration"
-      primary                                = true
-      subnet_id                              = azurerm_subnet.example.id
+      name      = "internal"
+      primary   = true
+      subnet_id = azurerm_subnet.internal.id
       load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.example.id]
       load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.example.id]
     }
