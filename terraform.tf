@@ -40,13 +40,13 @@ resource "azurerm_lb" "example" {
   }
 }
 
-resource "azurerm_lb_backend_address_pool" "bpepool" {
+resource "azurerm_lb_backend_address_pool" "example" {
   resource_group_name = azurerm_resource_group.example.name
   loadbalancer_id     = azurerm_lb.example.id
   name                = "BackEndAddressPool"
 }
 
-resource "azurerm_lb_nat_pool" "lbnatpool" {
+resource "azurerm_lb_nat_pool" "example" {
   resource_group_name            = azurerm_resource_group.example.name
   name                           = "ssh"
   loadbalancer_id                = azurerm_lb.example.id
@@ -122,7 +122,7 @@ resource "azurerm_virtual_machine_scale_set" "example" {
 
     ssh_keys {
       path     = "/home/azureuser/.ssh/authorized_keys"
-      key_data = file("~/.ssh/id_rsa.pub")
+      key_data = file("/var/lib/jenkins/.ssh/id_rsa.pub")
     }
   }
 
