@@ -88,7 +88,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
   name                = "vmss"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
-  sku                 = "Standard_F2"
+  sku                 = "Standard_DS1_v2"
   instances           = 1
   admin_password      = "P@55w0rd1234!"
   admin_username      = "adminuser"
