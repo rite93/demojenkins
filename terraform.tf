@@ -111,7 +111,7 @@ resource "azurerm_virtual_machine_scale_set" "example" {
   storage_profile_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    sku       = "18.04-LTS"
     version   = "latest"
   }
 
@@ -151,8 +151,8 @@ resource "azurerm_virtual_machine_scale_set" "example" {
       name                                   = "TestIPConfiguration"
       primary                                = true
       subnet_id                              = azurerm_subnet.example.id
-      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.bpepool.id]
-      load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.lbnatpool.id]
+      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.example.id]
+      load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.example.id]
     }
   }
 
