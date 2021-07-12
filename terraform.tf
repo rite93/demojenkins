@@ -48,7 +48,7 @@ resource "azurerm_public_ip" "example" {
 
 resource "azurerm_lb" "example" {
   name                = "test"
-  location            = azurerm_resource_group.example.location
+  location            = "East US"
   resource_group_name = azurerm_resource_group.example.name
 
   frontend_ip_configuration {
