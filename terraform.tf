@@ -25,15 +25,6 @@ resource "azurerm_subnet" "internal" {
   address_prefixes     = ["11.0.2.0/24"]
 }
 
-resource "azurerm_windows_virtual_machine_scale_set" "example" {
-  name                = "vmss"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  sku                 = "Standard_F2"
-  instances           = 1
-  admin_password      = "P@55w0rd1234!"
-  admin_username      = "adminuser"
-  
  resource "azurerm_monitor_autoscale_setting" "example" {
   name                = "myAutoscaleSetting"
   resource_group_name = azurerm_resource_group.example.name
@@ -95,6 +86,15 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
     }
   }
 }
+
+resource "azurerm_windows_virtual_machine_scale_set" "example" {
+  name                = "vmss"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+  sku                 = "Standard_F2"
+  instances           = 1
+  admin_password      = "P@55w0rd1234!"
+  admin_username      = "adminuser"
 
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
