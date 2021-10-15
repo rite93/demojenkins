@@ -95,7 +95,6 @@ resource "azurerm_windows_virtual_machine_scale_set" "example" {
       name      = "internal"
       primary   = true
       subnet_id = azurerm_subnet.example.id
-      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.example.id]
       load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.example.id]
     }
   }
